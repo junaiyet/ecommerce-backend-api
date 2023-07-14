@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router()
-const { secureUpload,createProduct } = require('../../controllers/productController');
+const { secureUpload,createProduct,createVariant } = require('../../controllers/productController');
 
 router.post("/createproduct",secureUpload,createProduct)
+router.post("/createvariant",createVariant)
 
 
 

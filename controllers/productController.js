@@ -1,4 +1,8 @@
 const User = require("../models/usersModel.js")
+const Product = require("../models/productSchema.js")
+const Variant = require("../models/variantSchema.js")
+
+
 
 async function secureUpload(req,res,next) {
     console.log(req.headers.authorization.split('@'))
@@ -35,6 +39,47 @@ async function secureUpload(req,res,next) {
    
 }
 async function createProduct(req,res) {
-    console.log("lest create produxt")
+    let {name,description,image,store} = req.body
+    if (!name) {
+        return res.send({error:"Enter name"})
+    }
+    if (!description) {
+        return res.send({error:"Enter description"})
+    }
+    if (!image) {
+        return res.send({error:"Enter image"})
+    }
+    if (!store) {
+        return res.send({error:"Enter store"})
+    }
+    let product =new Product({
+        name,
+        description,
+        image,
+        store
+    })
+
+
+    product.save()
+    res.send({success:"Product Create Successfully"})
 }
-module.exports = {secureUpload,createProduct}
+
+async function createVariant(req,res) {
+    let {name,image,product} = req.body
+    let duplicatevariant = await Variant.find({name})
+     
+    if (duplicatevariant.length> 0) {
+       return res.send({error:"Variant Already Exist. Try another"})
+    }
+    let variant =new Variant({
+        name,
+        image,
+        product
+    })
+
+
+    variant.save()
+    await Product.findOneAndUpdate({_id:variant.product},{$push:{variants:variant._id}},{new:true})
+    res.send({success:"Variant Create Successfully"})
+}
+module.exports = {secureUpload,createProduct,createVariant}
