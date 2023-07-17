@@ -12,10 +12,10 @@ const productSchema = new Schema({
         type:String,
         require:true
     },
-    image:{
-        type:String,
-        require:true
-    },
+    // image:{
+    //     type:String,
+    //     require:true
+    // },
     variants:[
         {
         type:Schema.Types.ObjectId,
