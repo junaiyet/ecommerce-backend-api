@@ -72,20 +72,20 @@ async function createVariant(req,res) {
 
     console.log("ami",req.file.filename)
 
-    // let variant =new Variant({
-    //     color,
-    //     image,
-    //     storage,
-    //     ram,
-    //     size,
-    //     price,
-    //     quantity,
-    //     product
-    // })
+    let variant =new Variant({
+        color,
+        image:`${process.env.IMAGE_PATH}/uploads/${req.file.filename}`,
+        storage,
+        ram,
+        size,
+        price,
+        quantity,
+        product
+    })
 
 
-    // variant.save()
-    // await Product.findOneAndUpdate({_id:variant.product},{$push:{variants:variant._id}},{new:true})
+   variant.save()
+   await Product.findOneAndUpdate({_id:variant.product},{$push:{variants:variant._id}},{new:true})
     res.send({success:"Variant Create Successfully"})
 }
 module.exports = {secureUpload,createProduct,createVariant}
