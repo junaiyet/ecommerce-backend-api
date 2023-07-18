@@ -70,7 +70,7 @@ async function createVariant(req,res) {
     //    return res.send({error:"Variant Already Exist. Try another"})
     // }
 
-    console.log("ami",req.file.filename)
+    // console.log("Image Uploaded",req.file.filename)
 
     let variant =new Variant({
         color,
